@@ -116,3 +116,20 @@ test-all: test test-race coverage-html ## Run all types of tests with coverage
 .PHONY: watch
 watch: ## Watch for changes and run tests (requires 'entr' command)
 	find . -name '*.go' | entr -c make test
+
+# Pre-commit targets
+.PHONY: pre-commit-install
+pre-commit-install: ## Install pre-commit hooks
+	pre-commit install
+
+.PHONY: pre-commit-run
+pre-commit-run: ## Run pre-commit hooks on all files
+	pre-commit run --all-files
+
+.PHONY: pre-commit-update
+pre-commit-update: ## Update pre-commit hooks
+	pre-commit autoupdate
+
+.PHONY: setup-precommit
+setup-precommit: ## Run the pre-commit setup script
+	./setup-precommit.sh

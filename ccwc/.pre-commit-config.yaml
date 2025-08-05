@@ -1,0 +1,58 @@
+# Pre-commit configuration for Go project
+repos:
+  # General hooks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-added-large-files
+      - id: check-case-conflict
+      - id: check-merge-conflict
+      - id: check-json
+      - id: pretty-format-json
+        args: ['--autofix']
+
+  # Go specific hooks - using local system commands for reliability
+  - repo: local
+    hooks:
+      - id: go-fmt-check
+        name: go-fmt-check
+        entry: bash
+        language: system
+        args: ['-c', 'test -z "$(gofmt -l .)"']
+        files: \.go$
+        pass_filenames: false
+
+      - id: go-imports
+        name: go-imports
+        entry: goimports
+        language: system
+        args: [-w]
+        files: \.go$
+        pass_filenames: true
+
+      - id: go-vet
+        name: go-vet
+        entry: go
+        language: system
+        args: [vet, ./...]
+        files: \.go$
+        pass_filenames: false
+
+      - id: go-test
+        name: go-test
+        entry: go
+        language: system
+        args: [test, ./...]
+        files: \.go$
+        pass_filenames: false
+
+      - id: go-mod-tidy
+        name: go-mod-tidy
+        entry: go
+        language: system
+        args: [mod, tidy]
+        files: go\.(mod|sum)$
+        pass_filenames: false
