@@ -14,6 +14,7 @@ func TestCountLines(t *testing.T) {
 		expected int
 	}{
 		{"Empty file", "testdata/empty.txt", 0},
+		{"Single line file", "testdata/single_line.txt", 1},
 	}
 
 	for _, tt := range tests {
