@@ -41,6 +41,14 @@ repos:
         files: \.go$
         pass_filenames: false
 
+      - id: go-build
+        name: go-build
+        entry: go
+        language: system
+        args: [build, ./...]
+        files: \.go$
+        pass_filenames: false
+
       - id: go-test
         name: go-test
         entry: go
