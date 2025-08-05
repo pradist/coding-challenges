@@ -15,6 +15,8 @@ func TestCountLines(t *testing.T) {
 	}{
 		{"Empty file", "testdata/empty.txt", 0},
 		{"Single line file", "testdata/single_line.txt", 1},
+		{"Multiple lines file", "testdata/multiline.txt", 3},
+		{"File without trailing newline", "testdata/no_newline.txt", 1},
 	}
 
 	for _, tt := range tests {
@@ -27,5 +29,21 @@ func TestCountLines(t *testing.T) {
 				t.Errorf("expected %d lines, got %d", tt.expected, result)
 			}
 		})
+	}
+}
+
+func TestCountLinesFileNotFound(t *testing.T) {
+	// Test error case when file doesn't exist
+	_, err := ccwc.CountLines("nonexistent_file.txt")
+	if err == nil {
+		t.Fatal("expected error for nonexistent file, got nil")
+	}
+}
+
+func TestCountLinesLongLine(t *testing.T) {
+	// Test with a very long line to trigger scanner error
+	_, err := ccwc.CountLines("testdata/long_line.txt")
+	if err == nil {
+		t.Fatal("expected scanner error for very long line, got nil")
 	}
 }
